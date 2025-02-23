@@ -3,12 +3,13 @@ import s from "./ContactForm.module.css"
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from "../../redux/contactsOps";
+import { selectContacts, selectLoading } from '../../redux/contactsSlice.js';
 
 const ContactForm = () => {
 
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.items);
-  const isLoading = useSelector(state => state.contacts.isLoading);
+  const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectLoading);
 
     const onlyLetters = /^[A-Za-zА-Яа-яЄєІіЇїҐґ-\s]+$/;
     const onlyNumbers = /^[0-9-]+$/;
@@ -60,7 +61,7 @@ const ContactForm = () => {
             </label>
 
             <button type="submit" className={s.button} disabled={isLoading}>
-              {isLoading ? 'Adding...' : 'Add contact'}
+              {isLoading ? '...' : 'Add contact'}
             </button>
           </Form>
         )}

@@ -5,23 +5,24 @@ import s from "./App.module.css"
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchContacts } from "./redux/contactsOps";
+import { selectContacts, selectError, selectLoading } from "./redux/contactsSlice";
 
 const App = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.items);
-  const isLoading = useSelector(state => state.contacts.isLoading);
-  const error = useSelector(state => state.contacts.isError);
+  const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectLoading);
+  const error = useSelector(selectError);
 
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
 
   return (
-    <div>
+    <div className={s.container}>
       <h1 className={s.title}>Phonebook</h1>
       <ContactForm />
-      {isLoading && <p>Loading contacts...</p>}
-      {error && <p>Error: {error}</p>}
+      {isLoading && <p className={s.alert}>Loading contacts...</p>}
+      {error && <p className={s.alert}>Error: {error}</p>}
       {contacts.length > 0 && <SearchBox />}
       <ContactList contacts={contacts} />
     </div>
